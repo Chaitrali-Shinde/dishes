@@ -3,6 +3,13 @@ import {Breadcrumb, BreadcrumbItem, Input, Form, FormGroup, Col, Button, Label, 
 import {Link} from 'react-router-dom';
 import {Control, Errors, LocalForm} from 'react-redux-form'
 
+const required= (val)=> val&& val.length;
+const maxLength= (len)=> (val)=> !(val) || (val.length<= len);
+const minLength= (len)=> (val)=> (val) && (val.length>= len);
+const isNumber= (val)=> !isNaN(Number(val));
+const validEmail= (val)=>   /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2, 4}$/i.test(val);
+
+
 class Contact extends React.Component {
 
     constructor(props){
@@ -75,7 +82,21 @@ class Contact extends React.Component {
                                     <Control.text model= ".firstname" id= "firstname" name= "firstname"
                                             placeholder= "First Name" 
                                             className= "form-control"
+                                            validators= {
+                                                {
+                                                    required, minLength: minLength(3), maxLength: maxLength(15)
+                                                }
+                                            }
                                             />
+                                        <Errors
+                                        className= "text-danger "
+                                        model= ".firstname"
+                                        show= "touched"
+                                        messages= {{
+                                            required: 'required',
+                                            minLength: 'length show be greater than 2',
+                                            maxLength: 'length should be less than 15'
+                                        }}/>
                                    
                                 </Col>
                             </FormGroup>
@@ -87,7 +108,21 @@ class Contact extends React.Component {
                                     <Control.text model= ".lastname" id= "lastname" name= "lastname"
                                             placeholder= "Last Name" 
                                             className= "form-control"
+                                            validators= {
+                                                {
+                                                    required, minLength: minLength(3), maxLength: maxLength(15)
+                                                }
+                                            }
                                             />
+                                        <Errors
+                                        className= "danger-text"
+                                        model= ".lastname"
+                                        show= "touched"
+                                        messages= {{
+                                            required: 'required',
+                                            minLength: 'length show be greater than 2',
+                                            maxLength: 'length should be less than 15'
+                                        }}/>
                                     
                                 </Col>
                             </FormGroup>
@@ -99,7 +134,22 @@ class Contact extends React.Component {
                                     <Control.text model= ".telnum" id= "telnum" name= "telnum"
                                             placeholder= "Telephone No." 
                                             className= "form-control"
+                                            validators= {
+                                                {
+                                                    required, minLength: minLength(3), maxLength: maxLength(15), isNumber
+                                                }
+                                            }
                                             />
+                                        <Errors
+                                        className= "danger-text"
+                                        model= ".telnum"
+                                        show= "touched"
+                                        messages= {{
+                                            required: 'required',
+                                            minLength: 'length show be greater than 2',
+                                            maxLength: 'length should be less than 15',
+                                            isNumber: 'should be a number'
+                                        }}/>
                                    
                                 </Col>
                             </FormGroup>
